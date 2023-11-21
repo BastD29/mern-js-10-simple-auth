@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { signup } from "../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -9,10 +12,12 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
     try {
       const response = await signup(email, password);
-      alert(response.message);
-      setError(null);
+      alert(response.message); // "User successfully created"
+      navigate("/login");
     } catch (error) {
       setError(error.message);
       console.log("error message:", error.message);

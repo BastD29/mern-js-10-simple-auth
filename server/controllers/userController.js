@@ -13,4 +13,17 @@ const signup = async (req, res) => {
   }
 };
 
-export { signup };
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    await User.login(email, password);
+    res
+      .status(200)
+      .json({ message: "User successfully logged in", email: email });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export { signup, login };
