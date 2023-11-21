@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 
-// route to fetch user/signup: http://localhost:3000/user/signup
+// complete route to fetch user/signup: http://localhost:3000/user/signup
 app.use("/user", userRoutes);
 
 mongoose

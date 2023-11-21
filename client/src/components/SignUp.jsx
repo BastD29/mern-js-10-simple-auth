@@ -1,27 +1,27 @@
 import { useState } from "react";
+import { signup } from "../services/auth.service";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      await fetch("/api/user/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-    } catch (error) {}
+      const response = await signup(email, password);
+      alert(response.message);
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+      console.log("error message:", error.message);
+    }
   };
 
   return (
     <form className="signup" onSubmit={handleSubmit}>
       <h3>Sign Up</h3>
-
       <label>Email:</label>
       <div>
         <input
@@ -38,9 +38,8 @@ const Signup = () => {
           value={password}
         />
       </div>
-
       <button type="submit">Sign up</button>
-      {/* {error && <div className="error">{error}</div>} */}
+      {error && <div className="error">{error}</div>}
     </form>
   );
 };
