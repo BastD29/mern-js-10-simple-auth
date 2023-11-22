@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/auth.service";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const { setToken, setIsAuthenticated } = useAuthContext();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +19,9 @@ const Login = () => {
 
     try {
       const response = await login(email, password);
-      alert(response.message); // "User successfully logged in"
+      localStorage.setItem("token", response.token);
+      setToken(response.token);
+      setIsAuthenticated(true);
       navigate("/");
     } catch (error) {
       setError(error.message);
